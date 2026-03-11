@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from app.models import (
     TelemetryEvent, EventResponse, BatchEventRequest, BatchEventResponse,
@@ -70,6 +71,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/", include_in_schema=False)
+async def root():
+    return RedirectResponse(url="/docs")
 
 
 # ── Event Ingestion ──────────────────────────────────────────────
